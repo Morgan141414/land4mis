@@ -10,6 +10,8 @@ import {
   FileCheck2,
   FileSpreadsheet,
   Gauge,
+  Globe2,
+  Headphones,
   HeartPulse,
   Languages,
   LockKeyhole,
@@ -65,6 +67,8 @@ type Copy = {
   rolesLead: string;
   rolloutTitle: string;
   rolloutLead: string;
+  faqTitle: string;
+  faqLead: string;
   trustTitle: string;
   trustLead: string;
   finalTitle: string;
@@ -118,6 +122,9 @@ const COPY: Record<Locale, Copy> = {
     rolloutTitle: 'Внедрение без операционного шока',
     rolloutLead:
       'Лендинг уже готов говорить о подключении: этапы, перенос данных, обучение и сопровождение после запуска.',
+    faqTitle: 'Вопросы перед подключением',
+    faqLead:
+      'Клиника должна понимать сроки, поддержку и следующий шаг еще до разговора с отделом продаж.',
     trustTitle: 'Надежность для медицинской инфраструктуры',
     trustLead:
       'Система создана под реальные требования клиник: безопасность, масштабирование, контроль доступа и документооборот.',
@@ -171,6 +178,9 @@ const COPY: Record<Locale, Copy> = {
     rolloutTitle: 'Енгізу операциялық күйзеліссіз',
     rolloutLead:
       'Лендинг қосылу туралы нақты сөйлейді: кезеңдер, деректерді көшіру, оқыту және іске қосылғаннан кейін қолдау.',
+    faqTitle: 'Қосылу алдындағы сұрақтар',
+    faqLead:
+      'Клиника сату бөлімімен сөйлеспей тұрып мерзімді, қолдауды және келесі қадамды түсінуі керек.',
     trustTitle: 'Медициналық инфрақұрылымға арналған сенімділік',
     trustLead:
       'Жүйе клиникалардың нақты талаптарына сай жасалған: қауіпсіздік, масштабтау, қолжетімділікті бақылау және құжат айналымы.',
@@ -195,7 +205,7 @@ const COPY: Record<Locale, Copy> = {
 
 const LOGIN_URL = import.meta.env.VITE_QORMED_LOGIN_URL || 'https://mis.qormed.kz/auth';
 const DEMO_ENDPOINT = import.meta.env.VITE_QORMED_DEMO_ENDPOINT;
-const SALES_EMAIL = import.meta.env.VITE_QORMED_SALES_EMAIL || 'vandalsavageaaa@gmail.com';
+const SALES_EMAIL = import.meta.env.VITE_QORMED_SALES_EMAIL || 'inbox@qormed.kz';
 
 const problems = [
   { icon: FileSpreadsheet, ru: 'Устаревший учет в Excel', kk: 'Excel-дегі ескі есеп' },
@@ -218,6 +228,8 @@ const trust = [
   { icon: DatabaseZap, ru: 'Масштабируется под сеть клиник', kk: 'Клиникалар желісіне дейін масштабталады' },
   { icon: ShieldCheck, ru: 'Работа по стандартам МЗ РК', kk: 'ҚР ДСМ стандарттарына сай жұмыс' },
   { icon: Smartphone, ru: 'Мобильное приложение для руководителя', kk: 'Басшыға арналған мобильді қосымша' },
+  { icon: Globe2, ru: 'Поддержка на 3 языках', kk: '3 тілде қолдау' },
+  { icon: Headphones, ru: 'Поддержка 24/7 и персональный менеджер', kk: '24/7 қолдау және жеке менеджер' },
 ];
 
 const productScreens = [
@@ -307,6 +319,27 @@ const rollout = [
   { ru: 'Настройка ролей', kk: 'Рөлдерді баптау' },
   { ru: 'Перенос данных', kk: 'Деректерді көшіру' },
   { ru: 'Обучение команды', kk: 'Команданы оқыту' },
+];
+
+const faqs = [
+  {
+    ru: 'Как быстро можно внедрить QorMed?',
+    kk: 'QorMed жүйесін қаншалықты тез енгізуге болады?',
+    answerRu: 'Ориентир для разговора с клиникой - от 2 до 6 недель, в зависимости от размера клиники и объема миграции данных.',
+    answerKk: 'Клиникамен сөйлесудегі бағдар - клиника көлемі мен деректерді көшіру көлеміне қарай 2-6 апта.',
+  },
+  {
+    ru: 'Что происходит после запуска?',
+    kk: 'Іске қосылғаннан кейін не болады?',
+    answerRu: 'Команда получает обучение, сопровождение, помощь с настройками, обновлениями и масштабированием системы.',
+    answerKk: 'Команда оқыту, сүйемелдеу, баптаулар, жаңартулар және жүйені масштабтау бойынша көмек алады.',
+  },
+  {
+    ru: 'Для кого интерфейс?',
+    kk: 'Интерфейс кімге арналған?',
+    answerRu: 'Для руководителя, администратора и врача: роли разные, но данные остаются в одном контуре.',
+    answerKk: 'Басшыға, әкімшіге және дәрігерге: рөлдер әртүрлі, бірақ деректер бір контурда қалады.',
+  },
 ];
 
 const proof = [
@@ -478,6 +511,25 @@ function RoleMatrix({ locale }: { locale: Locale }) {
           </div>
         </div>
       </article>
+    </section>
+  );
+}
+
+function FaqSection({ locale }: { locale: Locale }) {
+  return (
+    <section className="faq" aria-labelledby="faq-title">
+      <div className="section-heading">
+        <h2 id="faq-title">{COPY[locale].faqTitle}</h2>
+        <p>{COPY[locale].faqLead}</p>
+      </div>
+      <div className="faq-list">
+        {faqs.map((item, index) => (
+          <details className="faq-item" key={item.ru} open={index === 0}>
+            <summary>{locale === 'ru' ? item.ru : item.kk}</summary>
+            <p>{locale === 'ru' ? item.answerRu : item.answerKk}</p>
+          </details>
+        ))}
+      </div>
     </section>
   );
 }
@@ -761,6 +813,8 @@ function App() {
           ))}
         </div>
       </section>
+
+      <FaqSection locale={locale} />
 
       <section className="contact" id="contact">
         <div className="contact-copy">

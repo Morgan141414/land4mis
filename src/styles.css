@@ -660,7 +660,7 @@ h1 {
   line-height: 1.45;
 }
 
-.section-band, .solution, .journey, .product-showcase, .roles, .contact {
+.section-band, .solution, .journey, .product-showcase, .roles, .faq, .contact {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
   padding: 96px 0;
@@ -681,6 +681,7 @@ h1 {
 .journey,
 .product-showcase,
 .roles,
+.faq,
 .trust,
 .contact {
   position: relative;
@@ -691,6 +692,7 @@ h1 {
 .journey::before,
 .product-showcase::before,
 .roles::before,
+.faq::before,
 .trust::before,
 .contact::before {
   content: "";
@@ -989,6 +991,45 @@ h1 {
 
 .roles::before {
   background: #edf8f1;
+}
+
+.faq {
+  color: #08231b;
+  padding-top: 76px;
+}
+
+.faq::before {
+  background:
+    radial-gradient(circle at 16% 30%, rgba(156, 246, 180, 0.14), transparent 24rem),
+    #f6fbf7;
+}
+
+.faq-list {
+  display: grid;
+  gap: 12px;
+  max-width: 860px;
+}
+
+.faq-item {
+  border: 1px solid rgba(8, 35, 27, 0.12);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 18px 44px rgba(4, 21, 17, 0.07);
+}
+
+.faq-item summary {
+  cursor: pointer;
+  padding: 22px 24px;
+  color: #08231b;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.faq-item p {
+  margin: 0;
+  padding: 0 24px 24px;
+  color: rgba(8, 35, 27, 0.68);
+  line-height: 1.6;
 }
 
 .role-switcher {
@@ -1448,7 +1489,7 @@ h1 {
   .brand svg { width: 32px; height: 32px; }
   .brand span { font-size: 18px; }
   .lang-toggle { width: 42px; padding: 0; font-size: 0; }
-  .hero, .section-band, .solution, .journey, .product-showcase, .roles, .contact { width: min(100% - 28px, 1180px); }
+  .hero, .section-band, .solution, .journey, .product-showcase, .roles, .faq, .contact { width: min(100% - 28px, 1180px); }
   .hero { gap: 20px; padding-bottom: 42px; }
   h1 { font-size: 40px; line-height: 1.03; }
   .hero-lead, .section-heading p, .solution-copy p, .contact-copy p { font-size: 16px; }
@@ -1477,7 +1518,7 @@ h1 {
   }
   .login-card { width: 100%; padding: 20px; }
   .problem-grid, .solution-grid, .trust-grid { grid-template-columns: 1fr; }
-  .section-band, .solution, .journey, .product-showcase, .roles, .contact { padding: 70px 0; }
+  .section-band, .solution, .journey, .product-showcase, .roles, .faq, .contact { padding: 70px 0; }
   .journey-step {
     grid-template-columns: 1fr;
     gap: 14px;
