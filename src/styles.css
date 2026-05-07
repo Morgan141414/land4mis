@@ -596,7 +596,14 @@ h1 {
 
 .login-submit { width: 100%; }
 
-.section-band, .solution, .contact {
+.login-notice {
+  margin: 12px 0 0;
+  color: rgba(245, 255, 249, 0.48);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.section-band, .solution, .product-showcase, .contact {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
   padding: 96px 0;
@@ -613,6 +620,7 @@ h1 {
 }
 
 .solution,
+.product-showcase,
 .trust,
 .contact {
   position: relative;
@@ -620,6 +628,7 @@ h1 {
 }
 
 .solution::before,
+.product-showcase::before,
 .trust::before,
 .contact::before {
   content: "";
@@ -635,6 +644,12 @@ h1 {
 
 .solution::before {
   top: -32px;
+}
+
+.product-showcase::before {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(156, 246, 180, 0.14), transparent 26rem),
+    linear-gradient(180deg, #f6fbf7 0%, #edf8f1 100%);
 }
 
 .section-heading {
@@ -715,6 +730,132 @@ h1 {
   margin: 32px 0 20px;
   font-size: 21px;
   line-height: 1.16;
+}
+
+.product-showcase {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 54px;
+  align-items: center;
+  color: #08231b;
+  padding-top: 64px;
+}
+
+.product-showcase-copy h2 {
+  margin-bottom: 16px;
+  font-size: clamp(32px, 4.8vw, 54px);
+  line-height: 1.04;
+}
+
+.product-showcase-copy p {
+  color: rgba(8, 35, 27, 0.66);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.mockup-stage {
+  position: relative;
+  min-height: 470px;
+  perspective: 1000px;
+}
+
+.mockup-card,
+.mockup-command {
+  position: absolute;
+  border: 1px solid rgba(8, 35, 27, 0.1);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 30px 70px rgba(4, 21, 17, 0.14);
+}
+
+.mockup-card {
+  width: 260px;
+  min-height: 300px;
+  padding: 18px;
+}
+
+.mockup-card-1 {
+  top: 34px;
+  left: 0;
+  transform: rotateZ(-7deg);
+}
+
+.mockup-card-2 {
+  top: 0;
+  left: 210px;
+  z-index: 2;
+  transform: translateZ(40px);
+}
+
+.mockup-card-3 {
+  right: 8px;
+  bottom: 54px;
+  transform: rotateZ(6deg);
+}
+
+.mockup-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #0e5d46;
+  font-size: 13px;
+  font-weight: 820;
+}
+
+.mockup-card strong {
+  display: block;
+  margin: 36px 0 28px;
+  color: #08231b;
+  font-size: 58px;
+  line-height: 0.95;
+}
+
+.mockup-rows {
+  display: grid;
+  gap: 10px;
+}
+
+.mockup-rows span {
+  display: block;
+  border-radius: 7px;
+  background: #f0f8f3;
+  color: rgba(8, 35, 27, 0.74);
+  padding: 11px 12px;
+  font-size: 13px;
+  font-weight: 720;
+}
+
+.mockup-command {
+  left: 96px;
+  right: 48px;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  min-height: 86px;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #08231b, #0e5d46);
+  color: #ffffff;
+  padding: 18px;
+}
+
+.mockup-command svg {
+  flex: 0 0 auto;
+  color: var(--mint);
+}
+
+.mockup-command div {
+  display: grid;
+  gap: 4px;
+}
+
+.mockup-command b {
+  font-size: 16px;
+}
+
+.mockup-command span {
+  color: rgba(245, 255, 249, 0.66);
+  font-size: 12px;
 }
 
 .mini-bars {
@@ -800,7 +941,8 @@ h1 {
   color: #ffffff;
 }
 
-.success-message {
+.success-message,
+.error-message {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -808,6 +950,16 @@ h1 {
   color: #0e5d46;
   font-size: 13px;
   font-weight: 760;
+}
+
+.error-message {
+  display: block;
+  color: #b34128;
+}
+
+.demo-form button:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 
 @keyframes floatCore {
@@ -878,8 +1030,10 @@ h1 {
   .hero-visual { min-height: 760px; }
   .hero-scene { height: 500px; }
   .login-card { left: 50%; right: auto; transform: translateX(-50%); }
-  .problem-grid, .solution, .contact { grid-template-columns: 1fr; }
+  .problem-grid, .solution, .product-showcase, .contact { grid-template-columns: 1fr; }
   .problem-grid, .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mockup-stage { min-height: 560px; }
+  .mockup-card-2 { left: 32%; }
 }
 
 @media (max-width: 640px) {
@@ -892,7 +1046,7 @@ h1 {
   .brand svg { width: 32px; height: 32px; }
   .brand span { font-size: 18px; }
   .lang-toggle { width: 42px; padding: 0; font-size: 0; }
-  .hero, .section-band, .solution, .contact { width: min(100% - 28px, 1180px); }
+  .hero, .section-band, .solution, .product-showcase, .contact { width: min(100% - 28px, 1180px); }
   .hero { gap: 20px; padding-bottom: 42px; }
   h1 { font-size: 40px; line-height: 1.03; }
   .hero-lead, .section-heading p, .solution-copy p, .contact-copy p { font-size: 16px; }
@@ -916,5 +1070,28 @@ h1 {
   }
   .login-card { width: 100%; padding: 20px; }
   .problem-grid, .solution-grid, .trust-grid { grid-template-columns: 1fr; }
-  .section-band, .solution, .contact { padding: 70px 0; }
+  .section-band, .solution, .product-showcase, .contact { padding: 70px 0; }
+  .mockup-stage {
+    min-height: 820px;
+  }
+  .mockup-card,
+  .mockup-command {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    transform: none;
+  }
+  .mockup-stage {
+    display: grid;
+    gap: 14px;
+  }
+  .mockup-card { min-height: 230px; }
+  .mockup-card strong {
+    margin: 24px 0 20px;
+    font-size: 46px;
+  }
+  .mockup-command {
+    min-height: 96px;
+    align-items: flex-start;
+  }
 }
