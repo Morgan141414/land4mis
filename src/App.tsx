@@ -452,8 +452,19 @@ function HeroScene({ locale }: { locale: Locale }) {
   return (
     <div className="hero-scene" aria-label="QorMed product visualization">
       <div className="scene-glow" />
+      <div className="scene-depth" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
       <div className="orbit orbit-one" />
       <div className="orbit orbit-two" />
+      <div className="holo-base" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
       <div className="product-console">
         <div className="console-topbar">
           <span />
@@ -481,6 +492,14 @@ function HeroScene({ locale }: { locale: Locale }) {
             <i />
             <i />
           </div>
+          <div className="console-matrix" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
         </div>
       </div>
       <div className="command-strip">
@@ -507,6 +526,8 @@ function HeroScene({ locale }: { locale: Locale }) {
           </div>
         </div>
       ))}
+      <div className="scene-beam scene-beam-a" />
+      <div className="scene-beam scene-beam-b" />
       <div className="data-line data-line-a" />
       <div className="data-line data-line-b" />
     </div>
@@ -516,6 +537,11 @@ function HeroScene({ locale }: { locale: Locale }) {
 function IntroSequence({ locale }: { locale: Locale }) {
   return (
     <div className="intro-sequence" aria-hidden="true">
+      <div className="intro-grid">
+        <span />
+        <span />
+        <span />
+      </div>
       <div className="intro-mark">
         <QorMedLogo />
         <div className="intro-lines">
@@ -524,6 +550,12 @@ function IntroSequence({ locale }: { locale: Locale }) {
           <span />
         </div>
         <p>{locale === 'ru' ? 'цифровое управление клиникой' : 'клиниканы цифрлық басқару'}</p>
+      </div>
+      <div className="intro-console">
+        <span>{locale === 'ru' ? 'пациент' : 'пациент'}</span>
+        <span>{locale === 'ru' ? 'прием' : 'қабылдау'}</span>
+        <span>{locale === 'ru' ? 'оплата' : 'төлем'}</span>
+        <span>KPI</span>
       </div>
     </div>
   );
