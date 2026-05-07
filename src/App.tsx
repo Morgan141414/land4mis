@@ -1,5 +1,5 @@
 import type { CSSProperties, FormEvent } from 'react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Activity,
   ArrowRight,
@@ -37,6 +37,73 @@ type Locale = 'ru' | 'kk';
 declare global {
   interface Window {
     dataLayer?: Array<Record<string, unknown>>;
+  }
+}
+
+async function playIntroSound() {
+  const AudioContextClass =
+    window.AudioContext ||
+    (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+
+  if (!AudioContextClass) {
+    return false;
+  }
+
+  try {
+    const context = new AudioContextClass();
+    await context.resume();
+
+    if (context.state !== 'running') {
+      return false;
+    }
+
+    const now = context.currentTime;
+    const master = context.createGain();
+    const lowPass = context.createBiquadFilter();
+    lowPass.type = 'lowpass';
+    lowPass.frequency.setValueAtTime(1850, now);
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(0.42, now + 0.035);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 1.75);
+    lowPass.connect(master);
+    master.connect(context.destination);
+
+    const makeTone = (frequency: number, start: number, duration: number, peak = 0.24) => {
+      const osc = context.createOscillator();
+      const gain = context.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(frequency, now + start);
+      osc.frequency.exponentialRampToValueAtTime(frequency * 0.55, now + start + duration);
+      gain.gain.setValueAtTime(0.0001, now + start);
+      gain.gain.exponentialRampToValueAtTime(peak, now + start + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + start + duration);
+      osc.connect(gain);
+      gain.connect(lowPass);
+      osc.start(now + start);
+      osc.stop(now + start + duration + 0.04);
+    };
+
+    makeTone(82, 0.02, 1.12, 0.32);
+    makeTone(164, 0.08, 0.9, 0.16);
+    makeTone(246, 0.22, 0.76, 0.1);
+
+    const shimmer = context.createOscillator();
+    const shimmerGain = context.createGain();
+    shimmer.type = 'triangle';
+    shimmer.frequency.setValueAtTime(620, now + 0.18);
+    shimmer.frequency.exponentialRampToValueAtTime(1180, now + 0.78);
+    shimmerGain.gain.setValueAtTime(0.0001, now + 0.18);
+    shimmerGain.gain.exponentialRampToValueAtTime(0.055, now + 0.32);
+    shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.18);
+    shimmer.connect(shimmerGain);
+    shimmerGain.connect(lowPass);
+    shimmer.start(now + 0.18);
+    shimmer.stop(now + 1.22);
+
+    window.setTimeout(() => void context.close(), 2100);
+    return true;
+  } catch {
+    return false;
   }
 }
 
@@ -537,6 +604,10 @@ function HeroScene({ locale }: { locale: Locale }) {
 function IntroSequence({ locale }: { locale: Locale }) {
   return (
     <div className="intro-sequence" aria-hidden="true">
+      <div className="intro-curtain" />
+      <div className="intro-ribbon intro-ribbon-a" />
+      <div className="intro-ribbon intro-ribbon-b" />
+      <div className="intro-ribbon intro-ribbon-c" />
       <div className="intro-grid">
         <span />
         <span />
@@ -557,6 +628,7 @@ function IntroSequence({ locale }: { locale: Locale }) {
         <span>{locale === 'ru' ? 'оплата' : 'төлем'}</span>
         <span>KPI</span>
       </div>
+      <div className="intro-flash" />
     </div>
   );
 }
@@ -869,6 +941,31 @@ function App() {
   const [demoStatus, setDemoStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [leadId, setLeadId] = useState('');
   const c = COPY[locale];
+
+  useEffect(() => {
+    let soundPlayed = false;
+
+    const play = async () => {
+      if (soundPlayed) return;
+      soundPlayed = await playIntroSound();
+    };
+
+    const playOnGesture = () => {
+      void play();
+    };
+
+    if (navigator.userActivation?.hasBeenActive) {
+      void play();
+    }
+
+    window.addEventListener('pointerdown', playOnGesture, { once: true });
+    window.addEventListener('keydown', playOnGesture, { once: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', playOnGesture);
+      window.removeEventListener('keydown', playOnGesture);
+    };
+  }, []);
 
   const localizedPipeline = useMemo(
     () => locale === 'ru' ? ['Пациент', 'Прием', 'Оплата', 'Отчет'] : ['Пациент', 'Қабылдау', 'Төлем', 'Есеп'],
