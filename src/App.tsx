@@ -58,6 +58,12 @@ type Copy = {
   solutionLead: string;
   productTitle: string;
   productLead: string;
+  journeyTitle: string;
+  journeyLead: string;
+  rolesTitle: string;
+  rolesLead: string;
+  rolloutTitle: string;
+  rolloutLead: string;
   trustTitle: string;
   trustLead: string;
   finalTitle: string;
@@ -66,6 +72,8 @@ type Copy = {
   formName: string;
   formPhone: string;
   formClinic: string;
+  formCity: string;
+  formScale: string;
   formEmail: string;
   formComment: string;
   formSubmit: string;
@@ -80,9 +88,9 @@ const COPY: Record<Locale, Copy> = {
     nav: ['Проблемы', 'Решение', 'Безопасность', 'Контакты'],
     ctaDemo: 'Запросить демо',
     ctaLogin: 'Войти',
-    heroTitle: 'QorMed - медицинская информационная система для управления клиникой в одном окне',
+    heroTitle: 'QorMed - система управления клиникой',
     heroLead:
-      'Пациенты, расписание, финансы, документы, врачи, отчеты и KPI работают как единая система, а не как разрозненные таблицы и ручные процессы.',
+      'Пациент, прием, оплата, документы, врач и KPI проходят через один цифровой контур. Руководитель видит клинику как систему, а не набор таблиц.',
     heroMicro: 'Разработано в Казахстане. Для клиник любого масштаба.',
     loginTitle: 'Вход в систему',
     loginLead: 'Для сотрудников клиники и руководителей',
@@ -100,6 +108,15 @@ const COPY: Record<Locale, Copy> = {
     productTitle: 'Продуктовый контур, который видно с первого экрана',
     productLead:
       'Вместо сырой фотографии брошюры лендинг показывает аккуратные интерфейсные сцены: пациент, запись, оплата и управленческий контроль.',
+    journeyTitle: 'Один путь пациента вместо десятков ручных действий',
+    journeyLead:
+      'QorMed показывает клинику как процесс: запись создает событие, врач ведет карту, оплата закрывает визит, а руководитель видит отчет.',
+    rolesTitle: 'Разные роли, один источник правды',
+    rolesLead:
+      'Владелец, администратор и врач работают в своем интерфейсе, но все данные остаются в единой системе.',
+    rolloutTitle: 'Внедрение без операционного шока',
+    rolloutLead:
+      'Лендинг уже готов говорить о подключении: этапы, перенос данных, обучение и сопровождение после запуска.',
     trustTitle: 'Надежность для медицинской инфраструктуры',
     trustLead:
       'Система создана под реальные требования клиник: безопасность, масштабирование, контроль доступа и документооборот.',
@@ -110,6 +127,8 @@ const COPY: Record<Locale, Copy> = {
     formName: 'Ваше имя',
     formPhone: 'Телефон',
     formClinic: 'Название клиники',
+    formCity: 'Город',
+    formScale: 'Сколько врачей или филиалов?',
     formEmail: 'Рабочая почта',
     formComment: 'Что хотите автоматизировать первым?',
     formSubmit: 'Отправить заявку',
@@ -122,9 +141,9 @@ const COPY: Record<Locale, Copy> = {
     nav: ['Мәселелер', 'Шешім', 'Қауіпсіздік', 'Байланыс'],
     ctaDemo: 'Демо сұрау',
     ctaLogin: 'Кіру',
-    heroTitle: 'QorMed - клиниканы бір терезеде басқаруға арналған медициналық ақпараттық жүйе',
+    heroTitle: 'QorMed - клиниканы басқару жүйесі',
     heroLead:
-      'Пациенттер, кесте, қаржы, құжаттар, дәрігерлер, есептер және KPI бөлек кестелер емес, біртұтас жүйе ретінде жұмыс істейді.',
+      'Пациент, қабылдау, төлем, құжаттар, дәрігер және KPI бір цифрлық контурдан өтеді. Басшы клиниканы бөлек кесте емес, жүйе ретінде көреді.',
     heroMicro: 'Қазақстанда жасалған. Әр түрлі көлемдегі клиникаларға арналған.',
     loginTitle: 'Жүйеге кіру',
     loginLead: 'Клиника қызметкерлері мен басшылары үшін',
@@ -142,6 +161,15 @@ const COPY: Record<Locale, Copy> = {
     productTitle: 'Бірінші экраннан көрінетін өнім контуры',
     productLead:
       'Брошюра фотосының орнына лендинг пациент, жазылу, төлем және басқару бақылауын көрсететін таза интерфейс көріністерін береді.',
+    journeyTitle: 'Ондаған қол әрекетінің орнына пациенттің бір жолы',
+    journeyLead:
+      'QorMed клиниканы процесс ретінде көрсетеді: жазылу оқиға жасайды, дәрігер карта жүргізеді, төлем визитті жабады, басшы есепті көреді.',
+    rolesTitle: 'Әр рөлге өз интерфейсі, дерек көзі біреу',
+    rolesLead:
+      'Иесі, әкімші және дәрігер өз жұмысына ыңғайлы экранда жұмыс істейді, ал деректер бір жүйеде қалады.',
+    rolloutTitle: 'Енгізу операциялық күйзеліссіз',
+    rolloutLead:
+      'Лендинг қосылу туралы нақты сөйлейді: кезеңдер, деректерді көшіру, оқыту және іске қосылғаннан кейін қолдау.',
     trustTitle: 'Медициналық инфрақұрылымға арналған сенімділік',
     trustLead:
       'Жүйе клиникалардың нақты талаптарына сай жасалған: қауіпсіздік, масштабтау, қолжетімділікті бақылау және құжат айналымы.',
@@ -152,6 +180,8 @@ const COPY: Record<Locale, Copy> = {
     formName: 'Атыңыз',
     formPhone: 'Телефон',
     formClinic: 'Клиника атауы',
+    formCity: 'Қала',
+    formScale: 'Қанша дәрігер немесе филиал?',
     formEmail: 'Жұмыс поштасы',
     formComment: 'Алдымен нені автоматтандырғыңыз келеді?',
     formSubmit: 'Өтінім жіберу',
@@ -195,22 +225,87 @@ const productScreens = [
     ru: 'Карта пациента',
     kk: 'Пациент картасы',
     metric: '360°',
-    rows: ['Анамнез', 'Диагноз', 'Назначения'],
+    rows: ['История визитов', 'Диагноз и назначения', 'Результаты обследований'],
   },
   {
     icon: CalendarDays,
     ru: 'Календарь приемов',
     kk: 'Қабылдау күнтізбесі',
     metric: '09:30',
-    rows: ['Терапевт', 'УЗИ', 'Повторный прием'],
+    rows: ['График врачей', 'Кабинеты и услуги', 'Автозапись пациента'],
   },
   {
     icon: WalletCards,
     ru: 'Оплаты и счета',
     kk: 'Төлемдер мен шоттар',
     metric: '₸',
-    rows: ['Счет', 'Оплата', 'Закрытие'],
+    rows: ['Счет за визит', 'Статус оплаты', 'Финансовая сводка'],
   },
+];
+
+const journey = [
+  {
+    icon: CalendarDays,
+    ru: 'Пациент записывается на прием',
+    kk: 'Пациент қабылдауға жазылады',
+    detailRu: 'Календарь сразу учитывает врача, кабинет и услугу.',
+    detailKk: 'Күнтізбе дәрігерді, кабинетті және қызметті бірден ескереді.',
+  },
+  {
+    icon: HeartPulse,
+    ru: 'Врач ведет электронную карту',
+    kk: 'Дәрігер электронды картаны жүргізеді',
+    detailRu: 'История, протокол, назначения и результаты остаются в одном месте.',
+    detailKk: 'Тарих, хаттама, тағайындаулар және нәтижелер бір жерде қалады.',
+  },
+  {
+    icon: WalletCards,
+    ru: 'Администратор закрывает оплату',
+    kk: 'Әкімші төлемді жабады',
+    detailRu: 'Счета и оплаты связаны с визитом, пациентом и отчетностью.',
+    detailKk: 'Шоттар мен төлемдер визитпен, пациентпен және есеппен байланысты.',
+  },
+  {
+    icon: BarChart3,
+    ru: 'Руководитель видит KPI',
+    kk: 'Басшы KPI көреді',
+    detailRu: 'Отчеты собираются из реальных действий команды, а не вручную.',
+    detailKk: 'Есептер қолмен емес, команданың нақты әрекеттерінен жиналады.',
+  },
+];
+
+const rolePanels = [
+  {
+    icon: Gauge,
+    ru: 'Владелец клиники',
+    kk: 'Клиника иесі',
+    metric: '+контроль',
+    pointsRu: ['выручка и загрузка', 'KPI врачей', 'филиальная сеть'],
+    pointsKk: ['табыс және жүктеме', 'дәрігер KPI', 'филиалдар желісі'],
+  },
+  {
+    icon: UsersRound,
+    ru: 'Администратор',
+    kk: 'Әкімші',
+    metric: '-рутина',
+    pointsRu: ['запись и переносы', 'оплаты и счета', 'единая база пациентов'],
+    pointsKk: ['жазылу және ауыстыру', 'төлемдер мен шоттар', 'пациенттердің бір базасы'],
+  },
+  {
+    icon: Stethoscope,
+    ru: 'Врач',
+    kk: 'Дәрігер',
+    metric: '+фокус',
+    pointsRu: ['карта пациента', 'протокол приема', 'история обследований'],
+    pointsKk: ['пациент картасы', 'қабылдау хаттамасы', 'тексеру тарихы'],
+  },
+];
+
+const rollout = [
+  { ru: 'Аудит процессов', kk: 'Процестер аудиті' },
+  { ru: 'Настройка ролей', kk: 'Рөлдерді баптау' },
+  { ru: 'Перенос данных', kk: 'Деректерді көшіру' },
+  { ru: 'Обучение команды', kk: 'Команданы оқыту' },
 ];
 
 const proof = [
@@ -272,6 +367,11 @@ function HeroScene({ locale }: { locale: Locale }) {
           </div>
         </div>
       </div>
+      <div className="command-strip">
+        <span>{locale === 'ru' ? 'Пациент принят' : 'Пациент қабылданды'}</span>
+        <span>{locale === 'ru' ? 'Оплата закрыта' : 'Төлем жабылды'}</span>
+        <span>KPI +18%</span>
+      </div>
       <div className="clinic-core">
         <div className="core-ring" />
         <Stethoscope size={56} strokeWidth={1.4} />
@@ -297,6 +397,56 @@ function HeroScene({ locale }: { locale: Locale }) {
   );
 }
 
+function FlowMap({ locale }: { locale: Locale }) {
+  return (
+    <section className="journey" aria-labelledby="journey-title">
+      <div className="journey-copy">
+        <h2 id="journey-title">{COPY[locale].journeyTitle}</h2>
+        <p>{COPY[locale].journeyLead}</p>
+      </div>
+      <div className="journey-rail">
+        {journey.map((item, index) => (
+          <article className="journey-step" key={item.ru}>
+            <div className="journey-number">{index + 1}</div>
+            <div className="journey-icon">
+              <item.icon size={24} />
+            </div>
+            <h3>{locale === 'ru' ? item.ru : item.kk}</h3>
+            <p>{locale === 'ru' ? item.detailRu : item.detailKk}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function RoleMatrix({ locale }: { locale: Locale }) {
+  return (
+    <section className="roles" aria-labelledby="roles-title">
+      <div className="section-heading">
+        <h2 id="roles-title">{COPY[locale].rolesTitle}</h2>
+        <p>{COPY[locale].rolesLead}</p>
+      </div>
+      <div className="role-grid">
+        {rolePanels.map((role) => (
+          <article className="role-card" key={role.ru}>
+            <div className="role-card-top">
+              <div className="role-icon"><role.icon size={24} /></div>
+              <strong>{role.metric}</strong>
+            </div>
+            <h3>{locale === 'ru' ? role.ru : role.kk}</h3>
+            <ul>
+              {(locale === 'ru' ? role.pointsRu : role.pointsKk).map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function trackEvent(name: string, params: Record<string, string> = {}) {
   window.dispatchEvent(new CustomEvent('qormed:analytics', { detail: { name, ...params } }));
   if (import.meta.env.DEV) {
@@ -315,6 +465,8 @@ function buildLeadBody(form: HTMLFormElement, locale: Locale) {
     `${labels[1]}: ${data.get('name')}`,
     `${labels[2]}: ${data.get('phone')}`,
     `${labels[3]}: ${data.get('clinic')}`,
+    `${locale === 'ru' ? 'Город' : 'Қала'}: ${data.get('city')}`,
+    `${locale === 'ru' ? 'Масштаб' : 'Көлемі'}: ${data.get('scale')}`,
     `${labels[4]}: ${data.get('email')}`,
     `${labels[5]}: ${data.get('comment') || '-'}`,
   ].join('\n');
@@ -515,6 +667,8 @@ function App() {
         </div>
       </section>
 
+      <FlowMap locale={locale} />
+
       <section className="product-showcase" aria-labelledby="product-title">
         <div className="product-showcase-copy">
           <h2 id="product-title">{c.productTitle}</h2>
@@ -546,6 +700,8 @@ function App() {
         </div>
       </section>
 
+      <RoleMatrix locale={locale} />
+
       <section className="trust section-band" id="trust">
         <div className="section-heading">
           <h2>{c.trustTitle}</h2>
@@ -565,6 +721,15 @@ function App() {
         <div className="contact-copy">
           <h2>{c.finalTitle}</h2>
           <p>{c.finalLead}</p>
+          <div className="rollout-panel">
+            <h3>{c.rolloutTitle}</h3>
+            <p>{c.rolloutLead}</p>
+            <div className="rollout-steps">
+              {rollout.map((item, index) => (
+                <span key={item.ru}><b>{index + 1}</b>{item[locale]}</span>
+              ))}
+            </div>
+          </div>
           <div className="contact-methods">
             <a href="tel:+77003527000">
               <Phone size={18} />
@@ -593,6 +758,14 @@ function App() {
           <label>
             {c.formClinic}
             <input required name="clinic" type="text" autoComplete="organization" />
+          </label>
+          <label>
+            {c.formCity}
+            <input required name="city" type="text" autoComplete="address-level2" />
+          </label>
+          <label>
+            {c.formScale}
+            <input required name="scale" type="text" placeholder={locale === 'ru' ? 'Например: 12 врачей, 2 филиала' : 'Мысалы: 12 дәрігер, 2 филиал'} />
           </label>
           <label>
             {c.formEmail}
