@@ -35,6 +35,7 @@ type Locale = 'ru' | 'kk';
 declare global {
   interface Window {
     webkitAudioContext?: typeof AudioContext;
+    dataLayer?: Array<Record<string, unknown>>;
   }
 }
 
@@ -421,34 +422,71 @@ function FlowMap({ locale }: { locale: Locale }) {
 }
 
 function RoleMatrix({ locale }: { locale: Locale }) {
+  const [activeRole, setActiveRole] = useState(0);
+  const active = rolePanels[activeRole];
+  const points = locale === 'ru' ? active.pointsRu : active.pointsKk;
+
   return (
     <section className="roles" aria-labelledby="roles-title">
       <div className="section-heading">
         <h2 id="roles-title">{COPY[locale].rolesTitle}</h2>
         <p>{COPY[locale].rolesLead}</p>
       </div>
-      <div className="role-grid">
-        {rolePanels.map((role) => (
-          <article className="role-card" key={role.ru}>
-            <div className="role-card-top">
-              <div className="role-icon"><role.icon size={24} /></div>
-              <strong>{role.metric}</strong>
-            </div>
-            <h3>{locale === 'ru' ? role.ru : role.kk}</h3>
-            <ul>
-              {(locale === 'ru' ? role.pointsRu : role.pointsKk).map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-          </article>
+      <div className="role-switcher" role="tablist" aria-label={locale === 'ru' ? 'Роли в клинике' : 'Клиникадағы рөлдер'}>
+        {rolePanels.map((role, index) => (
+          <button
+            aria-selected={activeRole === index}
+            className={activeRole === index ? 'role-tab active' : 'role-tab'}
+            key={role.ru}
+            onClick={() => {
+              setActiveRole(index);
+              trackEvent('role_tab_click', { locale, role: role.ru });
+            }}
+            role="tab"
+            type="button"
+          >
+            <role.icon size={18} />
+            {locale === 'ru' ? role.ru : role.kk}
+          </button>
         ))}
       </div>
+      <article className="role-feature" role="tabpanel">
+        <div className="role-feature-copy">
+          <div className="role-card-top">
+            <div className="role-icon"><active.icon size={26} /></div>
+            <strong>{active.metric}</strong>
+          </div>
+          <h3>{locale === 'ru' ? active.ru : active.kk}</h3>
+          <ul>
+            {points.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="role-dashboard" aria-hidden="true">
+          <div className="role-dashboard-header">
+            <span>{locale === 'ru' ? 'Рабочий экран' : 'Жұмыс экраны'}</span>
+            <b>QorMed</b>
+          </div>
+          <div className="role-dashboard-grid">
+            <div className="role-stat large">{active.metric}</div>
+            <div className="role-stat">KPI</div>
+            <div className="role-stat">24/7</div>
+            <div className="role-list">
+              {points.map((point) => <span key={point}>{point}</span>)}
+            </div>
+          </div>
+        </div>
+      </article>
     </section>
   );
 }
 
 function trackEvent(name: string, params: Record<string, string> = {}) {
-  window.dispatchEvent(new CustomEvent('qormed:analytics', { detail: { name, ...params } }));
+  const payload = { event: name, ...params, timestamp: new Date().toISOString() };
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(payload);
+  window.dispatchEvent(new CustomEvent('qormed:analytics', { detail: payload }));
   if (import.meta.env.DEV) {
     console.info('[QorMed analytics]', name, params);
   }
@@ -493,6 +531,10 @@ function App() {
     event.preventDefault();
     playSoftClick();
     const form = event.currentTarget;
+    if (new FormData(form).get('website')) {
+      trackEvent('demo_spam_blocked', { locale });
+      return;
+    }
     const body = buildLeadBody(form, locale);
     setDemoStatus('sending');
     trackEvent('demo_submit', { locale });
@@ -545,6 +587,9 @@ function App() {
 
   return (
     <main className="page-shell">
+      <a className="skip-link" href="#contact">
+        {locale === 'ru' ? 'Перейти к заявке' : 'Өтінімге өту'}
+      </a>
       <header className="site-header">
         <a className="logo-link" href="#top">
           <QorMedLogo />
@@ -562,7 +607,7 @@ function App() {
             {locale === 'ru' ? 'Қазақша' : 'Русский'}
           </button>
           <a className="header-login" href="#login">{c.ctaLogin}</a>
-          <button className="menu-toggle" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open menu">
+          <button className="menu-toggle" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Open menu">
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
@@ -611,11 +656,11 @@ function App() {
             </div>
             <label>
               {c.username}
-              <input type="text" placeholder="qormed_admin" />
+              <input name="login" type="text" placeholder="qormed_admin" autoComplete="username" />
             </label>
             <label>
               {c.password}
-              <input type="password" placeholder="••••••••" />
+              <input name="password" type="password" placeholder="••••••••" autoComplete="current-password" />
             </label>
             <div className="login-row">
               <label className="remember">
@@ -747,6 +792,10 @@ function App() {
         </div>
         <form className="demo-form" onSubmit={handleDemoSubmit}>
           <h3><Building2 size={22} />{c.formTitle}</h3>
+          <label className="lead-honeypot" aria-hidden="true">
+            Website
+            <input name="website" tabIndex={-1} type="text" autoComplete="off" />
+          </label>
           <label>
             {c.formName}
             <input required name="name" type="text" autoComplete="name" />

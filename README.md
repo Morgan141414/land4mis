@@ -22,3 +22,9 @@ VITE_QORMED_SALES_EMAIL=sales@example.com
 ```
 
 If `VITE_QORMED_DEMO_ENDPOINT` is not configured, the demo form stores the lead locally and opens a prefilled email to sales. This keeps the landing usable before the backend/CRM integration is ready.
+
+## Deploy notes
+
+- `vercel.json` includes `/auth` SPA rewrites and basic security headers.
+- `public/robots.txt`, `public/sitemap.xml`, and `public/og-qormed.svg` are ready for `qormed.kz`.
+- Analytics events are pushed to `window.dataLayer` and also emitted as `qormed:analytics` custom events.
