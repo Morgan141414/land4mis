@@ -27,7 +27,6 @@ import {
   TimerReset,
   UserRoundX,
   UsersRound,
-  Volume2,
   WalletCards,
   X,
 } from 'lucide-react';
@@ -36,7 +35,6 @@ type Locale = 'ru' | 'kk';
 
 declare global {
   interface Window {
-    webkitAudioContext?: typeof AudioContext;
     dataLayer?: Array<Record<string, unknown>>;
   }
 }
@@ -63,6 +61,8 @@ type Copy = {
   productLead: string;
   commandTitle: string;
   commandLead: string;
+  insightTitle: string;
+  insightLead: string;
   journeyTitle: string;
   journeyLead: string;
   rolesTitle: string;
@@ -95,10 +95,10 @@ const COPY: Record<Locale, Copy> = {
     nav: ['Проблемы', 'Решение', 'Безопасность', 'Контакты'],
     ctaDemo: 'Запросить демо',
     ctaLogin: 'Войти',
-    heroTitle: 'Цифровой командный центр для современной клиники',
+    heroTitle: 'Видьте клинику как систему в цифрах',
     heroLead:
-      'QorMed соединяет запись, прием, карту пациента, оплату, документы и KPI в один управляемый контур для владельца, администратора и врача.',
-    heroMicro: 'QorMed MIS · разработано в Казахстане · RU / KZ / EN',
+      'QorMed объединяет CRM, телефонию, WhatsApp, запись, карту пациента, оплаты, аналитику и ЭЦП в один контур управления клиникой.',
+    heroMicro: 'QorMed · цифровое управление клиникой · Казахстан',
     loginTitle: 'Вход в систему',
     loginLead: 'Для сотрудников клиники и руководителей',
     username: 'Логин или ИИН',
@@ -118,6 +118,9 @@ const COPY: Record<Locale, Copy> = {
     commandTitle: 'Операционная картина клиники в реальном времени',
     commandLead:
       'На одном экране видно загрузку врачей, ближайшие приемы, финансовый статус и узкие места процесса.',
+    insightTitle: 'Клиника может терять деньги тихо',
+    insightLead:
+      'Потери редко выглядят как одна большая ошибка. Обычно это пропущенный звонок, ручной перенос записи, долгий ответ, незакрытая оплата и отчет, который собирают слишком поздно.',
     journeyTitle: 'Один путь пациента вместо десятков ручных действий',
     journeyLead:
       'QorMed показывает клинику как процесс: запись создает событие, врач ведет карту, оплата закрывает визит, а руководитель видит отчет.',
@@ -154,10 +157,10 @@ const COPY: Record<Locale, Copy> = {
     nav: ['Мәселелер', 'Шешім', 'Қауіпсіздік', 'Байланыс'],
     ctaDemo: 'Демо сұрау',
     ctaLogin: 'Кіру',
-    heroTitle: 'Заманауи клиникаға арналған цифрлық басқару орталығы',
+    heroTitle: 'Клиниканы цифрлар жүйесі ретінде көріңіз',
     heroLead:
-      'QorMed жазылу, қабылдау, пациент картасы, төлем, құжаттар және KPI деректерін иесіне, әкімшіге және дәрігерге ортақ контурға біріктіреді.',
-    heroMicro: 'QorMed MIS · Қазақстанда жасалған · RU / KZ / EN',
+      'QorMed CRM, телефония, WhatsApp, жазылу, пациент картасы, төлемдер, аналитика және ЭЦҚ деректерін бір басқару контурына біріктіреді.',
+    heroMicro: 'QorMed · клиниканы цифрлық басқару · Қазақстан',
     loginTitle: 'Жүйеге кіру',
     loginLead: 'Клиника қызметкерлері мен басшылары үшін',
     username: 'Логин немесе ЖСН',
@@ -177,6 +180,9 @@ const COPY: Record<Locale, Copy> = {
     commandTitle: 'Клиниканың нақты уақыттағы операциялық көрінісі',
     commandLead:
       'Бір экранда дәрігер жүктемесі, жақын қабылдаулар, қаржы статусы және процестегі тар орындар көрінеді.',
+    insightTitle: 'Клиника ақшаны үнсіз жоғалтуы мүмкін',
+    insightLead:
+      'Жоғалтулар көбіне бір үлкен қате емес. Бұл өткізіп алынған қоңырау, қолмен ауыстырылған жазылу, ұзақ жауап, жабылмаған төлем және кеш жиналған есеп.',
     journeyTitle: 'Ондаған қол әрекетінің орнына пациенттің бір жолы',
     journeyLead:
       'QorMed клиниканы процесс ретінде көрсетеді: жазылу оқиға жасайды, дәрігер карта жүргізеді, төлем визитті жабады, басшы есепті көреді.',
@@ -229,6 +235,13 @@ const solutions = [
   { icon: BarChart3, ru: 'Отчеты и аналитика', kk: 'Есептер және аналитика' },
   { icon: Activity, ru: 'Автоматизация приема и записи', kk: 'Қабылдау мен жазылуды автоматтандыру' },
   { icon: UsersRound, ru: 'KPI сотрудников', kk: 'Қызметкерлер KPI' },
+];
+
+const operatingModules = [
+  { icon: MessageCircle, ru: 'WhatsApp и CRM', kk: 'WhatsApp және CRM', value: 'CRM' },
+  { icon: Phone, ru: 'Телефония и скорость ответа', kk: 'Телефония және жауап жылдамдығы', value: 'call' },
+  { icon: FileCheck2, ru: 'ЭЦП и документы', kk: 'ЭЦҚ және құжаттар', value: 'EDS' },
+  { icon: BarChart3, ru: 'Аналитика владельца', kk: 'Иесінің аналитикасы', value: 'KPI' },
 ];
 
 const trust = [
@@ -350,6 +363,27 @@ const faqs = [
   },
 ];
 
+const moneyLeaks = [
+  {
+    ru: 'Скорость ответа',
+    kk: 'Жауап жылдамдығы',
+    detailRu: 'Если пациент ждет слишком долго, клиника теряет запись еще до приема.',
+    detailKk: 'Пациент ұзақ күтсе, клиника қабылдауға дейін-ақ жазылуды жоғалтады.',
+  },
+  {
+    ru: 'Тихие процессы',
+    kk: 'Үнсіз процестер',
+    detailRu: 'Ручные переносы, незакрытые оплаты и Excel-отчеты прячут реальные потери.',
+    detailKk: 'Қолмен ауыстыру, жабылмаған төлемдер және Excel есептері нақты шығынды жасырады.',
+  },
+  {
+    ru: 'Команда выгорает',
+    kk: 'Команда шаршайды',
+    detailRu: 'Когда система держится на людях, администраторы и врачи становятся узким местом.',
+    detailKk: 'Жүйе адамдарға ғана тірелсе, әкімшілер мен дәрігерлер тар орынға айналады.',
+  },
+];
+
 const proof = [
   { ru: 'внедрение', kk: 'енгізу', value: '2-6', unitRu: 'недель', unitKk: 'апта' },
   { ru: 'языка поддержки', kk: 'қолдау тілі', value: '3', unitRu: 'языка', unitKk: 'тіл' },
@@ -439,6 +473,22 @@ function HeroScene({ locale }: { locale: Locale }) {
   );
 }
 
+function IntroSequence({ locale }: { locale: Locale }) {
+  return (
+    <div className="intro-sequence" aria-hidden="true">
+      <div className="intro-mark">
+        <QorMedLogo />
+        <div className="intro-lines">
+          <span />
+          <span />
+          <span />
+        </div>
+        <p>{locale === 'ru' ? 'цифровое управление клиникой' : 'клиниканы цифрлық басқару'}</p>
+      </div>
+    </div>
+  );
+}
+
 function CommandCenter({ locale }: { locale: Locale }) {
   const appointments = locale === 'ru'
     ? ['Терапевт · 09:30', 'УЗИ · 10:15', 'Кардиолог · 11:00', 'Повторный прием · 12:20']
@@ -495,6 +545,26 @@ function CommandCenter({ locale }: { locale: Locale }) {
             </div>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function InsightSection({ locale }: { locale: Locale }) {
+  return (
+    <section className="insights" aria-labelledby="insight-title">
+      <div className="insight-copy">
+        <h2 id="insight-title">{COPY[locale].insightTitle}</h2>
+        <p>{COPY[locale].insightLead}</p>
+      </div>
+      <div className="leak-grid">
+        {moneyLeaks.map((item, index) => (
+          <article className="leak-card" key={item.ru}>
+            <small>{String(index + 1).padStart(2, '0')}</small>
+            <h3>{locale === 'ru' ? item.ru : item.kk}</h3>
+            <p>{locale === 'ru' ? item.detailRu : item.detailKk}</p>
+          </article>
+        ))}
       </div>
     </section>
   );
@@ -650,7 +720,6 @@ function App() {
 
   async function handleDemoSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    playSoftClick();
     const form = event.currentTarget;
     if (new FormData(form).get('website')) {
       trackEvent('demo_spam_blocked', { locale });
@@ -684,30 +753,13 @@ function App() {
 
   function handleLoginSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    playSoftClick();
     trackEvent('login_redirect', { locale });
     window.location.assign(LOGIN_URL);
   }
 
-  function playSoftClick() {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const ctx = new AudioCtx();
-    const oscillator = ctx.createOscillator();
-    const gain = ctx.createGain();
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(620, ctx.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(360, ctx.currentTime + 0.08);
-    gain.gain.setValueAtTime(0.025, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
-    oscillator.connect(gain);
-    gain.connect(ctx.destination);
-    oscillator.start();
-    oscillator.stop(ctx.currentTime + 0.1);
-  }
-
   return (
     <main className="page-shell">
+      <IntroSequence locale={locale} />
       <a className="skip-link" href="#contact">
         {locale === 'ru' ? 'Перейти к заявке' : 'Өтінімге өту'}
       </a>
@@ -723,7 +775,7 @@ function App() {
           ))}
         </nav>
         <div className="header-actions">
-          <button className="lang-toggle" type="button" onClick={() => { playSoftClick(); trackEvent('language_switch', { from: locale }); setLocale(locale === 'ru' ? 'kk' : 'ru'); }}>
+          <button className="lang-toggle" type="button" onClick={() => { trackEvent('language_switch', { from: locale }); setLocale(locale === 'ru' ? 'kk' : 'ru'); }}>
             <Languages size={16} />
             {locale === 'ru' ? 'Қазақша' : 'Русский'}
           </button>
@@ -740,11 +792,11 @@ function App() {
           <h1>{c.heroTitle}</h1>
           <p className="hero-lead">{c.heroLead}</p>
           <div className="hero-buttons">
-            <a className="primary-btn" href="#login" onClick={() => { playSoftClick(); trackEvent('hero_login_click', { locale }); }}>
+            <a className="primary-btn" href="#login" onClick={() => { trackEvent('hero_login_click', { locale }); }}>
               {c.ctaLogin}
               <ArrowRight size={18} />
             </a>
-            <a className="secondary-btn" href="#contact" onClick={() => { playSoftClick(); trackEvent('hero_demo_click', { locale }); }}>{c.ctaDemo}</a>
+            <a className="secondary-btn" href="#contact" onClick={() => { trackEvent('hero_demo_click', { locale }); }}>{c.ctaDemo}</a>
           </div>
           <div className="proof-row">
             {proof.map((item) => (
@@ -763,15 +815,20 @@ function App() {
               </div>
             ))}
           </div>
+          <div className="module-strip" aria-label="QorMed operating modules">
+            {operatingModules.map((item) => (
+              <div className="module-chip" key={item.ru}>
+                <item.icon size={16} />
+                <b>{item.value}</b>
+                <span>{item[locale]}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="hero-visual">
           <HeroScene locale={locale} />
           <form className="login-card" id="login" onSubmit={handleLoginSubmit}>
-            <div className="sound-note">
-              <Volume2 size={14} />
-              {locale === 'ru' ? 'мягкие звуки только после действия' : 'дыбыс тек әрекеттен кейін'}
-            </div>
             <div>
               <span className="card-kicker">{c.loginLead}</span>
               <h2>{c.loginTitle}</h2>
@@ -811,6 +868,8 @@ function App() {
           ))}
         </div>
       </section>
+
+      <InsightSection locale={locale} />
 
       <section className="solution" id="solution">
         <div className="solution-copy">
