@@ -12,6 +12,8 @@
   --text: #f5fff9;
   --muted: rgba(245, 255, 249, 0.68);
   --shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+  --panel: rgba(255, 255, 255, 0.07);
+  --line: rgba(255, 255, 255, 0.12);
 }
 
 * { box-sizing: border-box; }
@@ -52,9 +54,12 @@ input:focus-visible {
   min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 75% 10%, rgba(91, 229, 138, 0.2), transparent 34rem),
-    radial-gradient(circle at 18% 4%, rgba(122, 184, 255, 0.14), transparent 28rem),
-    linear-gradient(180deg, #03110e 0%, #061b15 100%);
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 72% 8%, rgba(91, 229, 138, 0.24), transparent 34rem),
+    radial-gradient(circle at 10% 8%, rgba(122, 184, 255, 0.16), transparent 30rem),
+    linear-gradient(180deg, #020b09 0%, #061b15 100%);
+  background-size: 52px 52px, 52px 52px, auto, auto, auto;
 }
 
 .site-header {
@@ -69,9 +74,9 @@ input:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 8px;
-  background: rgba(3, 17, 14, 0.78);
+  background: rgba(3, 17, 14, 0.82);
   padding: 12px 14px 12px 18px;
   backdrop-filter: blur(20px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.24);
@@ -154,7 +159,7 @@ input:focus-visible {
   position: relative;
   display: grid;
   min-height: 100vh;
-  grid-template-columns: minmax(0, 1fr) minmax(420px, 560px);
+  grid-template-columns: minmax(0, 0.92fr) minmax(460px, 620px);
   gap: 48px;
   align-items: center;
   width: min(1180px, calc(100% - 40px));
@@ -164,28 +169,32 @@ input:focus-visible {
 
 .hero-note {
   display: inline-flex;
+  border: 1px solid rgba(156, 246, 180, 0.18);
+  border-radius: 999px;
+  background: rgba(156, 246, 180, 0.08);
   margin: 0 0 18px;
+  padding: 9px 12px;
   color: var(--mint);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 760;
 }
 
 h1, h2, h3, p { margin-top: 0; }
 
 h1 {
-  max-width: 680px;
+  max-width: 760px;
   margin-bottom: 24px;
   color: var(--text);
-  font-size: clamp(42px, 5.3vw, 72px);
-  line-height: 0.98;
+  font-size: clamp(46px, 6.1vw, 84px);
+  line-height: 0.94;
   letter-spacing: 0;
 }
 
 .hero-lead {
-  max-width: 680px;
+  max-width: 640px;
   margin-bottom: 34px;
   color: var(--muted);
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1.62;
 }
 
@@ -200,7 +209,7 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 50px;
+  min-height: 54px;
   border: 0;
   border-radius: 7px;
   background: var(--mint);
@@ -228,7 +237,7 @@ h1 {
 .proof-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 520px;
+  max-width: 560px;
   gap: 10px;
   margin-top: 28px;
 }
@@ -237,7 +246,7 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.045);
-  padding: 14px;
+  padding: 16px;
 }
 
 .proof-item strong {
@@ -251,8 +260,16 @@ h1 {
   display: block;
   margin-top: 6px;
   color: rgba(245, 255, 249, 0.68);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.25;
+}
+
+.proof-item small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(245, 255, 249, 0.42);
+  font-size: 11px;
+  font-weight: 760;
 }
 
 .pipeline-step {
@@ -282,7 +299,7 @@ h1 {
 
 .hero-visual {
   position: relative;
-  min-height: 660px;
+  min-height: 690px;
 }
 
 .hero-scene {
@@ -559,12 +576,12 @@ h1 {
 
 .login-card {
   position: absolute;
-  right: 10px;
+  right: 0;
   bottom: 0;
-  width: min(100%, 390px);
+  width: min(100%, 410px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
-  background: rgba(3, 17, 14, 0.88);
+  background: rgba(3, 17, 14, 0.91);
   padding: 24px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(24px);
@@ -660,7 +677,7 @@ h1 {
   line-height: 1.45;
 }
 
-.section-band, .solution, .journey, .product-showcase, .roles, .faq, .contact {
+.section-band, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
   padding: 96px 0;
@@ -678,6 +695,7 @@ h1 {
 }
 
 .solution,
+.command-center,
 .journey,
 .product-showcase,
 .roles,
@@ -689,6 +707,7 @@ h1 {
 }
 
 .solution::before,
+.command-center::before,
 .journey::before,
 .product-showcase::before,
 .roles::before,
@@ -709,6 +728,203 @@ h1 {
 .solution::before {
   top: -32px;
 }
+
+.command-center {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: 44px;
+  align-items: center;
+  color: #08231b;
+  padding-top: 76px;
+}
+
+.command-center::before {
+  background:
+    radial-gradient(circle at 78% 20%, rgba(122, 184, 255, 0.16), transparent 26rem),
+    linear-gradient(180deg, #f6fbf7 0%, #eaf7ef 100%);
+}
+
+.command-copy h2 {
+  margin-bottom: 16px;
+  font-size: clamp(36px, 5vw, 62px);
+  line-height: 1.02;
+}
+
+.command-copy p {
+  color: rgba(8, 35, 27, 0.66);
+  font-size: 18px;
+  line-height: 1.62;
+}
+
+.command-screen {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  min-height: 520px;
+  border: 1px solid rgba(8, 35, 27, 0.14);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 34px 90px rgba(4, 21, 17, 0.16);
+  overflow: hidden;
+}
+
+.command-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  background: linear-gradient(180deg, #041511, #0a3328);
+  color: #ffffff;
+  padding: 22px;
+}
+
+.command-sidebar .brand {
+  transform: scale(0.86);
+  transform-origin: left top;
+}
+
+.command-sidebar > span {
+  margin-top: 42px;
+  color: rgba(245, 255, 249, 0.58);
+  font-size: 13px;
+}
+
+.command-sidebar > b {
+  color: var(--mint);
+  font-size: 62px;
+  line-height: 0.9;
+}
+
+.command-sidebar > small {
+  color: rgba(245, 255, 249, 0.58);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.command-main {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(156, 246, 180, 0.16), transparent 20rem),
+    #f8fcf9;
+}
+
+.command-topline,
+.command-kpi,
+.schedule-board,
+.patient-snapshot {
+  border: 1px solid rgba(8, 35, 27, 0.1);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.command-topline {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 18px;
+  color: rgba(8, 35, 27, 0.66);
+  font-weight: 760;
+}
+
+.command-topline strong {
+  color: #0e5d46;
+}
+
+.command-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.command-kpi {
+  min-height: 116px;
+  padding: 16px;
+}
+
+.command-kpi span {
+  color: rgba(8, 35, 27, 0.56);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.command-kpi strong {
+  display: block;
+  margin-top: 18px;
+  color: #08231b;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.command-workspace {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 12px;
+}
+
+.schedule-board,
+.patient-snapshot {
+  min-height: 250px;
+  padding: 18px;
+}
+
+.schedule-board h3,
+.patient-snapshot h3 {
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.schedule-row {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 7px;
+  background: #edf8f1;
+  margin-top: 10px;
+  padding: 0 12px;
+  color: rgba(8, 35, 27, 0.72);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.schedule-row i {
+  width: 42px;
+  height: 8px;
+  border-radius: 999px;
+  background: #9cf6b4;
+}
+
+.patient-snapshot {
+  background: linear-gradient(145deg, #08231b, #041511);
+  color: #ffffff;
+}
+
+.patient-snapshot svg {
+  color: var(--mint);
+}
+
+.patient-snapshot p {
+  color: rgba(245, 255, 249, 0.62);
+  line-height: 1.55;
+}
+
+.patient-lines {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.patient-lines span {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(156, 246, 180, 0.22);
+}
+
+.patient-lines span:nth-child(2) { width: 78%; }
+.patient-lines span:nth-child(3) { width: 54%; background: rgba(122, 184, 255, 0.24); }
 
 .product-showcase::before {
   background:
@@ -1471,12 +1687,23 @@ h1 {
   .hero-visual { min-height: 760px; }
   .hero-scene { height: 500px; }
   .login-card { left: 50%; right: auto; transform: translateX(-50%); }
-  .problem-grid, .solution, .journey, .product-showcase, .contact { grid-template-columns: 1fr; }
+  .problem-grid, .solution, .command-center, .journey, .product-showcase, .contact { grid-template-columns: 1fr; }
   .problem-grid, .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .journey-copy { position: static; }
   .mockup-stage { min-height: 560px; }
   .mockup-card-2 { left: 32%; }
   .role-feature { grid-template-columns: 1fr; }
+  .command-screen { grid-template-columns: 1fr; }
+  .command-sidebar {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+  .command-sidebar > span,
+  .command-sidebar > small { display: none; }
+  .command-sidebar > b {
+    justify-self: end;
+    font-size: 44px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1489,9 +1716,9 @@ h1 {
   .brand svg { width: 32px; height: 32px; }
   .brand span { font-size: 18px; }
   .lang-toggle { width: 42px; padding: 0; font-size: 0; }
-  .hero, .section-band, .solution, .journey, .product-showcase, .roles, .faq, .contact { width: min(100% - 28px, 1180px); }
+  .hero, .section-band, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact { width: min(100% - 28px, 1180px); }
   .hero { gap: 20px; padding-bottom: 42px; }
-  h1 { font-size: 40px; line-height: 1.03; }
+  h1 { font-size: 42px; line-height: 0.98; }
   .hero-lead, .section-heading p, .solution-copy p, .contact-copy p { font-size: 16px; }
   .hero-buttons { flex-direction: column; }
   .primary-btn, .secondary-btn { width: 100%; }
@@ -1518,7 +1745,16 @@ h1 {
   }
   .login-card { width: 100%; padding: 20px; }
   .problem-grid, .solution-grid, .trust-grid { grid-template-columns: 1fr; }
-  .section-band, .solution, .journey, .product-showcase, .roles, .faq, .contact { padding: 70px 0; }
+  .section-band, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact { padding: 70px 0; }
+  .command-main { padding: 14px; }
+  .command-sidebar {
+    grid-template-columns: 1fr auto;
+    padding: 16px;
+  }
+  .command-sidebar .brand { transform: scale(0.82); }
+  .command-kpis,
+  .command-workspace { grid-template-columns: 1fr; }
+  .command-kpi { min-height: 92px; }
   .journey-step {
     grid-template-columns: 1fr;
     gap: 14px;

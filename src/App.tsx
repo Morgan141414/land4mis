@@ -61,6 +61,8 @@ type Copy = {
   solutionLead: string;
   productTitle: string;
   productLead: string;
+  commandTitle: string;
+  commandLead: string;
   journeyTitle: string;
   journeyLead: string;
   rolesTitle: string;
@@ -93,10 +95,10 @@ const COPY: Record<Locale, Copy> = {
     nav: ['Проблемы', 'Решение', 'Безопасность', 'Контакты'],
     ctaDemo: 'Запросить демо',
     ctaLogin: 'Войти',
-    heroTitle: 'QorMed - система управления клиникой',
+    heroTitle: 'Цифровой командный центр для современной клиники',
     heroLead:
-      'Пациент, прием, оплата, документы, врач и KPI проходят через один цифровой контур. Руководитель видит клинику как систему, а не набор таблиц.',
-    heroMicro: 'Разработано в Казахстане. Для клиник любого масштаба.',
+      'QorMed соединяет запись, прием, карту пациента, оплату, документы и KPI в один управляемый контур для владельца, администратора и врача.',
+    heroMicro: 'QorMed MIS · разработано в Казахстане · RU / KZ / EN',
     loginTitle: 'Вход в систему',
     loginLead: 'Для сотрудников клиники и руководителей',
     username: 'Логин или ИИН',
@@ -110,9 +112,12 @@ const COPY: Record<Locale, Copy> = {
     solutionTitle: 'Все процессы клиники - в одном окне',
     solutionLead:
       'От приема пациента до управленческого отчета: QorMed собирает ключевые процессы в понятную цифровую систему.',
-    productTitle: 'Продуктовый контур, который видно с первого экрана',
+    productTitle: 'Интерфейс, который продает продукт без лишних обещаний',
     productLead:
-      'Вместо сырой фотографии брошюры лендинг показывает аккуратные интерфейсные сцены: пациент, запись, оплата и управленческий контроль.',
+      'Лендинг показывает не абстрактную медицину, а рабочие экраны: расписание, карта пациента, финансовый статус и управленческая аналитика.',
+    commandTitle: 'Операционная картина клиники в реальном времени',
+    commandLead:
+      'На одном экране видно загрузку врачей, ближайшие приемы, финансовый статус и узкие места процесса.',
     journeyTitle: 'Один путь пациента вместо десятков ручных действий',
     journeyLead:
       'QorMed показывает клинику как процесс: запись создает событие, врач ведет карту, оплата закрывает визит, а руководитель видит отчет.',
@@ -149,10 +154,10 @@ const COPY: Record<Locale, Copy> = {
     nav: ['Мәселелер', 'Шешім', 'Қауіпсіздік', 'Байланыс'],
     ctaDemo: 'Демо сұрау',
     ctaLogin: 'Кіру',
-    heroTitle: 'QorMed - клиниканы басқару жүйесі',
+    heroTitle: 'Заманауи клиникаға арналған цифрлық басқару орталығы',
     heroLead:
-      'Пациент, қабылдау, төлем, құжаттар, дәрігер және KPI бір цифрлық контурдан өтеді. Басшы клиниканы бөлек кесте емес, жүйе ретінде көреді.',
-    heroMicro: 'Қазақстанда жасалған. Әр түрлі көлемдегі клиникаларға арналған.',
+      'QorMed жазылу, қабылдау, пациент картасы, төлем, құжаттар және KPI деректерін иесіне, әкімшіге және дәрігерге ортақ контурға біріктіреді.',
+    heroMicro: 'QorMed MIS · Қазақстанда жасалған · RU / KZ / EN',
     loginTitle: 'Жүйеге кіру',
     loginLead: 'Клиника қызметкерлері мен басшылары үшін',
     username: 'Логин немесе ЖСН',
@@ -166,9 +171,12 @@ const COPY: Record<Locale, Copy> = {
     solutionTitle: 'Клиниканың барлық процесі - бір терезеде',
     solutionLead:
       'Пациентті қабылдаудан басқарушылық есепке дейін: QorMed негізгі процестерді түсінікті цифрлық жүйеге біріктіреді.',
-    productTitle: 'Бірінші экраннан көрінетін өнім контуры',
+    productTitle: 'Өнімді артық уәдесіз көрсететін интерфейс',
     productLead:
-      'Брошюра фотосының орнына лендинг пациент, жазылу, төлем және басқару бақылауын көрсететін таза интерфейс көріністерін береді.',
+      'Лендинг абстракт медицина емес, нақты жұмыс экрандарын көрсетеді: кесте, пациент картасы, қаржы статусы және басқару аналитикасы.',
+    commandTitle: 'Клиниканың нақты уақыттағы операциялық көрінісі',
+    commandLead:
+      'Бір экранда дәрігер жүктемесі, жақын қабылдаулар, қаржы статусы және процестегі тар орындар көрінеді.',
     journeyTitle: 'Ондаған қол әрекетінің орнына пациенттің бір жолы',
     journeyLead:
       'QorMed клиниканы процесс ретінде көрсетеді: жазылу оқиға жасайды, дәрігер карта жүргізеді, төлем визитті жабады, басшы есепті көреді.',
@@ -343,9 +351,9 @@ const faqs = [
 ];
 
 const proof = [
-  { ru: 'единое окно', kk: 'бір терезе', value: '1' },
-  { ru: 'ключевых модулей', kk: 'негізгі модуль', value: '6' },
-  { ru: 'для сети клиник', kk: 'клиника желісіне', value: '∞' },
+  { ru: 'внедрение', kk: 'енгізу', value: '2-6', unitRu: 'недель', unitKk: 'апта' },
+  { ru: 'языка поддержки', kk: 'қолдау тілі', value: '3', unitRu: 'языка', unitKk: 'тіл' },
+  { ru: 'поддержка', kk: 'қолдау', value: '24/7', unitRu: 'после запуска', unitKk: 'іске қосылған соң' },
 ];
 
 function QorMedLogo() {
@@ -428,6 +436,67 @@ function HeroScene({ locale }: { locale: Locale }) {
       <div className="data-line data-line-a" />
       <div className="data-line data-line-b" />
     </div>
+  );
+}
+
+function CommandCenter({ locale }: { locale: Locale }) {
+  const appointments = locale === 'ru'
+    ? ['Терапевт · 09:30', 'УЗИ · 10:15', 'Кардиолог · 11:00', 'Повторный прием · 12:20']
+    : ['Терапевт · 09:30', 'УДЗ · 10:15', 'Кардиолог · 11:00', 'Қайта қабылдау · 12:20'];
+  const labels = locale === 'ru'
+    ? ['Загрузка врачей', 'Оплаты сегодня', 'Открытые визиты']
+    : ['Дәрігер жүктемесі', 'Бүгінгі төлемдер', 'Ашық визиттер'];
+
+  return (
+    <section className="command-center" aria-labelledby="command-title">
+      <div className="command-copy">
+        <h2 id="command-title">{COPY[locale].commandTitle}</h2>
+        <p>{COPY[locale].commandLead}</p>
+      </div>
+      <div className="command-screen" aria-label="QorMed command center mockup">
+        <aside className="command-sidebar">
+          <QorMedLogo />
+          <span>{locale === 'ru' ? 'Сегодня' : 'Бүгін'}</span>
+          <b>18</b>
+          <small>{locale === 'ru' ? 'активных приемов' : 'белсенді қабылдау'}</small>
+        </aside>
+        <div className="command-main">
+          <div className="command-topline">
+            <span>{locale === 'ru' ? 'Клиника · операционный день' : 'Клиника · операциялық күн'}</span>
+            <strong>online</strong>
+          </div>
+          <div className="command-kpis">
+            {labels.map((label, index) => (
+              <div className="command-kpi" key={label}>
+                <span>{label}</span>
+                <strong>{['82%', '₸ 1.8M', '14'][index]}</strong>
+              </div>
+            ))}
+          </div>
+          <div className="command-workspace">
+            <div className="schedule-board">
+              <h3>{locale === 'ru' ? 'Ближайшие приемы' : 'Жақын қабылдаулар'}</h3>
+              {appointments.map((item) => (
+                <div className="schedule-row" key={item}>
+                  <span>{item}</span>
+                  <i />
+                </div>
+              ))}
+            </div>
+            <div className="patient-snapshot">
+              <HeartPulse size={24} />
+              <h3>{locale === 'ru' ? 'Карта пациента' : 'Пациент картасы'}</h3>
+              <p>{locale === 'ru' ? 'История, диагноз, назначения и результаты в одном профиле.' : 'Тарих, диагноз, тағайындаулар және нәтижелер бір профильде.'}</p>
+              <div className="patient-lines">
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -681,7 +750,8 @@ function App() {
             {proof.map((item) => (
               <div className="proof-item" key={item.ru}>
                 <strong>{item.value}</strong>
-                <span>{item[locale]}</span>
+                <span>{locale === 'ru' ? item.unitRu : item.unitKk}</span>
+                <small>{item[locale]}</small>
               </div>
             ))}
           </div>
@@ -763,6 +833,8 @@ function App() {
           ))}
         </div>
       </section>
+
+      <CommandCenter locale={locale} />
 
       <FlowMap locale={locale} />
 
