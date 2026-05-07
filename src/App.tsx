@@ -86,8 +86,10 @@ type Copy = {
   formComment: string;
   formSubmit: string;
   formSuccess: string;
+  formSuccessLead: string;
   formSending: string;
   formError: string;
+  formPrivacy: string;
   loginNotice: string;
 };
 
@@ -150,8 +152,10 @@ const COPY: Record<Locale, Copy> = {
     formComment: 'Что хотите автоматизировать первым?',
     formSubmit: 'Отправить заявку',
     formSuccess: 'Заявка сохранена. Мы свяжемся с вами.',
+    formSuccessLead: 'Номер заявки',
     formSending: 'Отправляем...',
     formError: 'Не удалось отправить автоматически. Открываем письмо для отдела продаж.',
+    formPrivacy: 'Нажимая кнопку, вы соглашаетесь на обработку контактных данных для связи по демо QorMed.',
     loginNotice: 'Если рабочий endpoint не задан, кнопка ведет на текущую MIS-страницу.',
   },
   kk: {
@@ -212,8 +216,10 @@ const COPY: Record<Locale, Copy> = {
     formComment: 'Алдымен нені автоматтандырғыңыз келеді?',
     formSubmit: 'Өтінім жіберу',
     formSuccess: 'Өтінім сақталды. Біз сізбен хабарласамыз.',
+    formSuccessLead: 'Өтінім нөмірі',
     formSending: 'Жіберілуде...',
     formError: 'Автоматты түрде жіберу мүмкін болмады. Сату бөліміне хат ашамыз.',
+    formPrivacy: 'Батырманы басу арқылы QorMed демосы бойынша байланысу үшін контакт деректерін өңдеуге келісесіз.',
     loginNotice: 'Жұмыс endpoint көрсетілмесе, батырма ағымдағы MIS бетіне апарады.',
   },
 };
@@ -796,7 +802,11 @@ function trackEvent(name: string, params: Record<string, string> = {}) {
   }
 }
 
-function buildLeadBody(form: HTMLFormElement, locale: Locale) {
+function createLeadId() {
+  return `QM-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
+}
+
+function buildLeadBody(form: HTMLFormElement, locale: Locale, leadId: string) {
   const data = new FormData(form);
   const labels = locale === 'ru'
     ? ['Новая заявка QorMed', 'Имя', 'Телефон', 'Клиника', 'Почта', 'Комментарий']
@@ -804,6 +814,7 @@ function buildLeadBody(form: HTMLFormElement, locale: Locale) {
 
   return [
     labels[0],
+    `Lead ID: ${leadId}`,
     `${labels[1]}: ${data.get('name')}`,
     `${labels[2]}: ${data.get('phone')}`,
     `${labels[3]}: ${data.get('clinic')}`,
@@ -824,6 +835,7 @@ function App() {
   const [locale, setLocale] = useState<Locale>('ru');
   const [menuOpen, setMenuOpen] = useState(false);
   const [demoStatus, setDemoStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [leadId, setLeadId] = useState('');
   const c = COPY[locale];
 
   const localizedPipeline = useMemo(
@@ -838,28 +850,33 @@ function App() {
       trackEvent('demo_spam_blocked', { locale });
       return;
     }
-    const body = buildLeadBody(form, locale);
+    const nextLeadId = createLeadId();
+    const body = buildLeadBody(form, locale, nextLeadId);
+    setLeadId(nextLeadId);
     setDemoStatus('sending');
-    trackEvent('demo_submit', { locale });
+    trackEvent('demo_submit', { locale, leadId: nextLeadId });
 
     try {
       if (DEMO_ENDPOINT) {
         const response = await fetch(DEMO_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          body: JSON.stringify({ leadId: nextLeadId, locale, ...Object.fromEntries(new FormData(form)) }),
         });
         if (!response.ok) throw new Error(`Demo endpoint returned ${response.status}`);
       } else {
         localStorage.setItem('qormed:lastLead', body);
+        localStorage.setItem('qormed:lastLeadId', nextLeadId);
         openLeadEmail(body);
       }
       form.reset();
       setDemoStatus('sent');
+      trackEvent('demo_success', { locale, leadId: nextLeadId, transport: DEMO_ENDPOINT ? 'endpoint' : 'mailto' });
       window.setTimeout(() => setDemoStatus('idle'), 4200);
     } catch (error) {
       console.error(error);
       setDemoStatus('error');
+      trackEvent('demo_error', { locale, leadId: nextLeadId });
       openLeadEmail(body);
     }
   }
@@ -1076,11 +1093,11 @@ function App() {
             </div>
           </div>
           <div className="contact-methods">
-            <a href="tel:+77003527000">
+            <a href="tel:+77003527000" onClick={() => trackEvent('sales_phone_click', { locale })}>
               <Phone size={18} />
               +7-700-352-70-00
             </a>
-            <a href="https://instagram.com/qormed" target="_blank" rel="noreferrer">
+            <a href="https://instagram.com/qormed" target="_blank" rel="noreferrer" onClick={() => trackEvent('instagram_click', { locale })}>
               <MessageCircle size={18} />
               qormed
             </a>
@@ -1090,46 +1107,55 @@ function App() {
             </a>
           </div>
         </div>
-        <form className="demo-form" onSubmit={handleDemoSubmit}>
+        <form className="demo-form" onSubmit={handleDemoSubmit} aria-describedby="demo-privacy demo-status">
           <h3><Building2 size={22} />{c.formTitle}</h3>
           <label className="lead-honeypot" aria-hidden="true">
             Website
             <input name="website" tabIndex={-1} type="text" autoComplete="off" />
           </label>
-          <label>
+          <label htmlFor="lead-name">
             {c.formName}
-            <input required name="name" type="text" autoComplete="name" />
+            <input id="lead-name" required name="name" type="text" autoComplete="name" />
           </label>
-          <label>
+          <label htmlFor="lead-phone">
             {c.formPhone}
-            <input required name="phone" type="tel" autoComplete="tel" />
+            <input id="lead-phone" required name="phone" type="tel" autoComplete="tel" />
           </label>
-          <label>
+          <label htmlFor="lead-clinic">
             {c.formClinic}
-            <input required name="clinic" type="text" autoComplete="organization" />
+            <input id="lead-clinic" required name="clinic" type="text" autoComplete="organization" />
           </label>
-          <label>
+          <label htmlFor="lead-city">
             {c.formCity}
-            <input required name="city" type="text" autoComplete="address-level2" />
+            <input id="lead-city" required name="city" type="text" autoComplete="address-level2" />
           </label>
-          <label>
+          <label htmlFor="lead-scale">
             {c.formScale}
-            <input required name="scale" type="text" placeholder={locale === 'ru' ? 'Например: 12 врачей, 2 филиала' : 'Мысалы: 12 дәрігер, 2 филиал'} />
+            <input id="lead-scale" required name="scale" type="text" placeholder={locale === 'ru' ? 'Например: 12 врачей, 2 филиала' : 'Мысалы: 12 дәрігер, 2 филиал'} />
           </label>
-          <label>
+          <label htmlFor="lead-email">
             {c.formEmail}
-            <input required name="email" type="email" autoComplete="email" />
+            <input id="lead-email" required name="email" type="email" autoComplete="email" />
           </label>
-          <label>
+          <label htmlFor="lead-comment">
             {c.formComment}
-            <input name="comment" type="text" />
+            <input id="lead-comment" name="comment" type="text" />
           </label>
+          <p className="privacy-note" id="demo-privacy">{c.formPrivacy}</p>
           <button type="submit" disabled={demoStatus === 'sending'}>
             <Send size={16} />
             {demoStatus === 'sending' ? c.formSending : c.formSubmit}
           </button>
-          {demoStatus === 'sent' && <p className="success-message"><CheckCircle2 size={16} />{c.formSuccess}</p>}
-          {demoStatus === 'error' && <p className="error-message">{c.formError}</p>}
+          <div id="demo-status" aria-live="polite">
+            {demoStatus === 'sent' && (
+              <p className="success-message">
+                <CheckCircle2 size={16} />
+                {c.formSuccess}
+                {leadId && <span>{c.formSuccessLead}: {leadId}</span>}
+              </p>
+            )}
+            {demoStatus === 'error' && <p className="error-message">{c.formError}</p>}
+          </div>
         </form>
       </section>
     </main>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="QorMed">
+  <rect width="48" height="48" rx="8" fill="#041511"/>
+  <path d="M12 8h18c5.5 0 10 4.5 10 10v18H22c-5.5 0-10-4.5-10-10V8Z" fill="#9cf6b4"/>
+  <path d="M21 16h9c1.1 0 2 .9 2 2v10h-9c-1.1 0-2-.9-2-2V16Z" fill="#041511"/>
+  <path d="M8 26h8v8H8z" fill="#9cf6b4"/>
+</svg>

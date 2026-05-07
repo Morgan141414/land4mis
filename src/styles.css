@@ -2004,6 +2004,7 @@ h1 {
 .error-message {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin: 14px 0 0;
   color: #0e5d46;
@@ -2011,9 +2012,22 @@ h1 {
   font-weight: 760;
 }
 
+.success-message span {
+  width: 100%;
+  color: rgba(8, 35, 27, 0.58);
+  font-size: 12px;
+}
+
 .error-message {
   display: block;
   color: #b34128;
+}
+
+.privacy-note {
+  margin: 12px 0 0;
+  color: rgba(8, 35, 27, 0.54);
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .demo-form button:disabled {

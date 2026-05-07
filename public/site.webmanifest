@@ -1,0 +1,19 @@
+{
+  "name": "QorMed - медицинская информационная система",
+  "short_name": "QorMed",
+  "description": "Медицинская информационная система для управления клиникой: пациенты, расписание, финансы, документы, врачи, отчеты и KPI в одном окне.",
+  "lang": "ru-KZ",
+  "start_url": "/auth",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#041511",
+  "theme_color": "#041511",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
