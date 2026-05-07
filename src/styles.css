@@ -83,20 +83,20 @@ input:focus-visible {
 .intro-sequence::after {
   content: "";
   position: absolute;
-  width: 56vw;
+  width: 18vw;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(156, 246, 180, 0.84), transparent);
   animation: introScan 1.7s ease-out forwards;
 }
 
 .intro-sequence::before {
-  top: 42%;
-  left: -12vw;
+  top: 47%;
+  left: 18vw;
 }
 
 .intro-sequence::after {
-  right: -10vw;
-  bottom: 39%;
+  right: 18vw;
+  bottom: 47%;
   animation-delay: 0.18s;
 }
 
@@ -1288,14 +1288,7 @@ h1 {
 }
 
 .journey-rail::before {
-  content: "";
-  position: absolute;
-  left: 30px;
-  top: 30px;
-  bottom: 30px;
-  width: 1px;
-  background: linear-gradient(180deg, var(--mint), rgba(122, 184, 255, 0.35), transparent);
-  z-index: 0;
+  content: none;
 }
 
 .journey-step {
