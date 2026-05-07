@@ -1,4 +1,5 @@
-import { FormEvent, useMemo, useState } from 'react';
+import type { CSSProperties, FormEvent } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Activity,
   ArrowRight,
@@ -384,6 +385,39 @@ const moneyLeaks = [
   },
 ];
 
+const controlChecks = [
+  {
+    ru: 'Руководитель видит выручку, загрузку врачей и оплаты без ручного Excel.',
+    kk: 'Басшы табыс, дәрігер жүктемесі және төлемдерді қолмен Excel жинамай көреді.',
+    signalRu: 'Финансы видны сегодня',
+    signalKk: 'Қаржы бүгін көрінеді',
+  },
+  {
+    ru: 'Администратор не теряет обращения из звонков, WhatsApp и повторных записей.',
+    kk: 'Әкімші қоңырау, WhatsApp және қайта жазылудан келген өтініштерді жоғалтпайды.',
+    signalRu: 'Заявки не пропадают',
+    signalKk: 'Өтініштер жоғалмайды',
+  },
+  {
+    ru: 'Врач открывает карту пациента, протокол и историю обследований в одном контуре.',
+    kk: 'Дәрігер пациент картасын, хаттаманы және тексеру тарихын бір контурда ашады.',
+    signalRu: 'Прием не дробится',
+    signalKk: 'Қабылдау бөлінбейді',
+  },
+  {
+    ru: 'KPI сотрудников считается по данным системы, а не по ощущениям.',
+    kk: 'Қызметкерлер KPI жүйе деректерімен есептеледі, болжаммен емес.',
+    signalRu: 'KPI без споров',
+    signalKk: 'KPI дау тудырмайды',
+  },
+  {
+    ru: 'Сеть клиник может расти без копирования хаоса в новые филиалы.',
+    kk: 'Клиникалар желісі хаосты жаңа филиалдарға көшірмей өсе алады.',
+    signalRu: 'Масштабирование готово',
+    signalKk: 'Масштабтауға дайын',
+  },
+];
+
 const proof = [
   { ru: 'внедрение', kk: 'енгізу', value: '2-6', unitRu: 'недель', unitKk: 'апта' },
   { ru: 'языка поддержки', kk: 'қолдау тілі', value: '3', unitRu: 'языка', unitKk: 'тіл' },
@@ -565,6 +599,85 @@ function InsightSection({ locale }: { locale: Locale }) {
             <p>{locale === 'ru' ? item.detailRu : item.detailKk}</p>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function ControlDiagnostic({ locale }: { locale: Locale }) {
+  const [checked, setChecked] = useState(() => new Set([0, 2]));
+  const score = checked.size;
+  const scoreLabel = locale === 'ru'
+    ? score >= 4 ? 'Клиника управляется системой' : score >= 2 ? 'Есть опорные процессы, но видны потери' : 'Клиника держится на людях'
+    : score >= 4 ? 'Клиника жүйемен басқарылады' : score >= 2 ? 'Негізгі процестер бар, бірақ шығын көрінеді' : 'Клиника адамдарға тіреліп тұр';
+  const nextStep = locale === 'ru'
+    ? score >= 4 ? 'Следующий шаг - масштабирование и точный KPI.' : 'Следующий шаг - собрать заявки, приемы, оплаты и отчеты в один контур.'
+    : score >= 4 ? 'Келесі қадам - масштабтау және нақты KPI.' : 'Келесі қадам - өтініш, қабылдау, төлем және есепті бір контурға жинау.';
+
+  function toggleCheck(index: number) {
+    setChecked((current) => {
+      const next = new Set(current);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      trackEvent('control_diagnostic_toggle', { index: String(index), active: String(next.has(index)), locale });
+      return next;
+    });
+  }
+
+  return (
+    <section className="diagnostic" aria-labelledby="diagnostic-title">
+      <div className="diagnostic-copy">
+        <h2 id="diagnostic-title">
+          {locale === 'ru' ? 'Проверьте, клиника управляется или просто держится' : 'Клиника басқарыла ма, әлде жай ғана ұсталып тұр ма?'}
+        </h2>
+        <p>
+          {locale === 'ru'
+            ? 'Пять признаков показывают, где бизнес теряет контроль: в деньгах, записи, приеме, KPI или масштабировании.'
+            : 'Бес белгі бақылаудың қай жерде жоғалатынын көрсетеді: қаржы, жазылу, қабылдау, KPI немесе масштабтау.'}
+        </p>
+        <a className="diagnostic-cta" href="#contact" onClick={() => trackEvent('diagnostic_demo_click', { locale, score: String(score) })}>
+          {locale === 'ru' ? 'Разобрать процессы с QorMed' : 'Процестерді QorMed-пен талдау'}
+          <ArrowRight size={18} />
+        </a>
+      </div>
+      <div className="diagnostic-console">
+        <div className="diagnostic-score">
+          <div>
+            <span>{locale === 'ru' ? 'Индекс управляемости' : 'Басқару индексі'}</span>
+            <strong>{score}/5</strong>
+          </div>
+          <p>{scoreLabel}</p>
+          <i style={{ '--score': `${score * 20}%` } as CSSProperties} />
+        </div>
+        <div className="diagnostic-list">
+          {controlChecks.map((item, index) => {
+            const isActive = checked.has(index);
+            return (
+              <button
+                className={isActive ? 'diagnostic-row active' : 'diagnostic-row'}
+                key={item.ru}
+                type="button"
+                onClick={() => toggleCheck(index)}
+                aria-pressed={isActive}
+              >
+                <span className="diagnostic-check">
+                  {isActive && <CheckCircle2 size={17} />}
+                </span>
+                <span>
+                  <b>{locale === 'ru' ? item.signalRu : item.signalKk}</b>
+                  <small>{locale === 'ru' ? item.ru : item.kk}</small>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="diagnostic-next">
+          <Gauge size={20} />
+          <span>{nextStep}</span>
+        </div>
       </div>
     </section>
   );
@@ -870,6 +983,8 @@ function App() {
       </section>
 
       <InsightSection locale={locale} />
+
+      <ControlDiagnostic locale={locale} />
 
       <section className="solution" id="solution">
         <div className="solution-copy">

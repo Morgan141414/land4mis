@@ -799,7 +799,7 @@ h1 {
   line-height: 1.45;
 }
 
-.section-band, .insights, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact {
+.section-band, .insights, .diagnostic, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
   padding: 96px 0;
@@ -818,6 +818,7 @@ h1 {
 
 .solution,
 .insights,
+.diagnostic,
 .command-center,
 .journey,
 .product-showcase,
@@ -831,6 +832,7 @@ h1 {
 
 .solution::before,
 .insights::before,
+.diagnostic::before,
 .command-center::before,
 .journey::before,
 .product-showcase::before,
@@ -1303,6 +1305,180 @@ h1 {
   margin-bottom: 0;
   color: rgba(245, 255, 249, 0.64);
   line-height: 1.56;
+}
+
+.diagnostic {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 52px;
+  align-items: center;
+  color: #08231b;
+}
+
+.diagnostic::before {
+  background:
+    radial-gradient(circle at 76% 12%, rgba(156, 246, 180, 0.18), transparent 27rem),
+    linear-gradient(180deg, #f6fbf7 0%, #eaf7ef 100%);
+}
+
+.diagnostic-copy h2 {
+  max-width: 560px;
+  margin-bottom: 18px;
+  font-size: clamp(34px, 4.8vw, 58px);
+  line-height: 1.02;
+}
+
+.diagnostic-copy p {
+  max-width: 520px;
+  color: rgba(8, 35, 27, 0.66);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.diagnostic-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  margin-top: 18px;
+  border-radius: 7px;
+  background: #063526;
+  color: #ffffff;
+  padding: 0 18px;
+  font-weight: 800;
+  box-shadow: 0 18px 44px rgba(4, 21, 17, 0.16);
+}
+
+.diagnostic-console {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(8, 35, 27, 0.11);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 16px;
+  box-shadow: 0 26px 70px rgba(4, 21, 17, 0.12);
+}
+
+.diagnostic-score {
+  display: grid;
+  gap: 12px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 88% 10%, rgba(156, 246, 180, 0.2), transparent 14rem),
+    linear-gradient(145deg, #07291f, #03110d);
+  color: #ffffff;
+  padding: 22px;
+}
+
+.diagnostic-score > div {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.diagnostic-score span {
+  color: rgba(245, 255, 249, 0.62);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.diagnostic-score strong {
+  color: var(--mint);
+  font-size: 56px;
+  line-height: 0.9;
+}
+
+.diagnostic-score p {
+  margin-bottom: 0;
+  color: rgba(245, 255, 249, 0.78);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.diagnostic-score i {
+  display: block;
+  overflow: hidden;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.diagnostic-score i::before {
+  content: "";
+  display: block;
+  width: var(--score);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--mint), var(--blue));
+  transition: width 220ms ease;
+}
+
+.diagnostic-list {
+  display: grid;
+  gap: 8px;
+}
+
+.diagnostic-row {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  align-items: start;
+  width: 100%;
+  border: 1px solid rgba(8, 35, 27, 0.1);
+  border-radius: 8px;
+  background: #f6fbf7;
+  color: #08231b;
+  padding: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.diagnostic-row:hover {
+  transform: translateY(-1px);
+  border-color: rgba(14, 93, 70, 0.24);
+}
+
+.diagnostic-row.active {
+  background: #ecfbf0;
+  border-color: rgba(14, 93, 70, 0.26);
+}
+
+.diagnostic-check {
+  display: flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(8, 35, 27, 0.12);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--emerald);
+}
+
+.diagnostic-row b {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+.diagnostic-row small {
+  display: block;
+  color: rgba(8, 35, 27, 0.58);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.diagnostic-next {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: rgba(14, 93, 70, 0.08);
+  color: #063526;
+  padding: 14px;
+  font-weight: 800;
 }
 
 .solution {
@@ -1968,7 +2144,7 @@ h1 {
   .hero-visual { min-height: 760px; }
   .hero-scene { height: 500px; }
   .login-card { left: 50%; right: auto; transform: translateX(-50%); }
-  .problem-grid, .insights, .solution, .command-center, .journey, .product-showcase, .contact { grid-template-columns: 1fr; }
+  .problem-grid, .insights, .diagnostic, .solution, .command-center, .journey, .product-showcase, .contact { grid-template-columns: 1fr; }
   .problem-grid, .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .leak-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .journey-copy { position: static; }
@@ -1998,7 +2174,7 @@ h1 {
   .brand svg { width: 32px; height: 32px; }
   .brand span { font-size: 18px; }
   .lang-toggle { width: 42px; padding: 0; font-size: 0; }
-  .hero, .section-band, .insights, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact { width: min(100% - 28px, 1180px); }
+  .hero, .section-band, .insights, .diagnostic, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact { width: min(100% - 28px, 1180px); }
   .hero { gap: 18px; padding-top: 94px; padding-bottom: 34px; }
   .hero-note { margin-bottom: 12px; font-size: 12px; }
   h1 { margin-bottom: 16px; font-size: 37px; line-height: 1; }
@@ -2039,10 +2215,16 @@ h1 {
   .login-card label { margin-top: 12px; }
   .login-card input { height: 44px; }
   .problem-grid, .solution-grid, .trust-grid, .leak-grid { grid-template-columns: 1fr; }
-  .section-band, .insights, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact { padding: 70px 0; }
+  .section-band, .insights, .diagnostic, .solution, .command-center, .journey, .product-showcase, .roles, .faq, .contact { padding: 70px 0; }
   .insight-copy { min-height: auto; }
   .leak-card, .leak-card:nth-child(2), .leak-card:nth-child(3) { min-height: 300px; }
   .leak-card h3 { margin-top: 90px; }
+  .diagnostic { gap: 24px; }
+  .diagnostic-copy h2 { font-size: 34px; }
+  .diagnostic-copy p { font-size: 15px; }
+  .diagnostic-console { padding: 12px; }
+  .diagnostic-score strong { font-size: 44px; }
+  .diagnostic-row { grid-template-columns: 36px 1fr; padding: 12px; }
   .command-main { padding: 14px; }
   .command-sidebar {
     grid-template-columns: 1fr auto;
