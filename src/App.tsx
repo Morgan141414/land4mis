@@ -622,12 +622,6 @@ function IntroSequence({ locale }: { locale: Locale }) {
         </div>
         <p>{locale === 'ru' ? 'цифровое управление клиникой' : 'клиниканы цифрлық басқару'}</p>
       </div>
-      <div className="intro-console">
-        <span>{locale === 'ru' ? 'запись' : 'жазылу'}</span>
-        <span>{locale === 'ru' ? 'карта' : 'карта'}</span>
-        <span>{locale === 'ru' ? 'оплата' : 'төлем'}</span>
-        <span>KPI</span>
-      </div>
       <div className="intro-flash" />
     </div>
   );
